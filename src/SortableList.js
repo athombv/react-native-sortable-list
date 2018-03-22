@@ -27,6 +27,7 @@ export default class SortableList extends Component {
     autoscrollAreaSize: PropTypes.number,
     rowActivationTime: PropTypes.number,
     manuallyActivateRows: PropTypes.bool,
+    unsortableRows: PropTypes.array,
 
     renderRow: PropTypes.func.isRequired,
     renderHeader: PropTypes.func,
@@ -41,7 +42,8 @@ export default class SortableList extends Component {
     sortingEnabled: true,
     scrollEnabled: true,
     autoscrollAreaSize: 60,
-    manuallyActivateRows: false
+    manuallyActivateRows: false,
+    unsortableRows: [],
   }
 
   /**
@@ -245,6 +247,8 @@ export default class SortableList extends Component {
         style[ZINDEX] = 100;
       }
 
+      const disabled = this.props.unsortableRows.indexOf(key) !== -1 || !sortingEnabled;
+
       return (
         <Row
           key={uniqueRowKey(key)}
@@ -252,7 +256,7 @@ export default class SortableList extends Component {
           horizontal={horizontal}
           activationTime={rowActivationTime}
           animated={animated && !active}
-          disabled={!sortingEnabled}
+          disabled={disabled}
           style={style}
           location={location}
           onLayout={!rowsLayouts ? this._onLayoutRow.bind(this, key) : null}
@@ -264,7 +268,7 @@ export default class SortableList extends Component {
           {renderRow({
             key,
             data: data[key],
-            disabled: !sortingEnabled,
+            disabled,
             active,
             index,
           })}
