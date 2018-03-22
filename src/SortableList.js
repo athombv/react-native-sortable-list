@@ -369,6 +369,8 @@ export default class SortableList extends Component {
         nextOrder.splice(rowUnderActiveIndex, 0, activeRowKey);
       }
 
+      this.props.onRowHover && this.props.onRowHover(rowUnderActiveIndex);
+
       this.setState({
         order: nextOrder,
         activeRowIndex: rowUnderActiveIndex,
