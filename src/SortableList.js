@@ -36,6 +36,7 @@ export default class SortableList extends Component {
     onChangeOrder: PropTypes.func,
     onActivateRow: PropTypes.func,
     onReleaseRow: PropTypes.func,
+    onReleaseRowValidate: PropTypes.func,
   };
 
   static defaultProps = {
@@ -561,6 +562,7 @@ export default class SortableList extends Component {
   };
 
   _onActivateRow = (rowKey, index, e, gestureState, location) => {
+    this._onActivateRowOrder = this.state.order;
     this._activeRowLocation = location;
 
     this.setState({
@@ -589,6 +591,10 @@ export default class SortableList extends Component {
       releasedRowKey: activeRowKey,
       scrollEnabled: this.props.scrollEnabled,
     }));
+
+    if (this.props.onReleaseRowValidate && !this.props.onReleaseRowValidate()) {
+      this.setState({ order: this._onActivateRowOrder });
+    }
 
     if (this.props.onReleaseRow) {
       this.props.onReleaseRow(rowKey);
