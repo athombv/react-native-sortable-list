@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/gitim/react-native-sortable-list",
   "dependencies": {
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.5.10"
   }
 }
